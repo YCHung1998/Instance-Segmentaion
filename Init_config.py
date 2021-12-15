@@ -8,8 +8,9 @@ from detectron2 import model_zoo
 from detectron2.config import get_cfg
 
 '''
-# initial config setting 
-# reference : https://github.com/facebookresearch/detectron2/blob/main/detectron2/config/defaults.py
+# initial config setting
+# reference : https://github.com/facebookresearch/detectron2
+#                    /blob/main/detectron2/config/defaults.py
 # reference : https://detectron2.readthedocs.io/en/latest/modules/config.html
 The most important is load the .yaml file and merge into the config.
 
@@ -31,7 +32,7 @@ and save_path ... and so on.
     ROI_HEADS.NUM_CLASSES,
     ROI_MASK_HEAD.POOLER_RESOLUTION
     ]
- 
+
 warm up with based lr and set the learning scheduler
 4. Solver [
     IMS_PER_BATCH
@@ -42,10 +43,10 @@ warm up with based lr and set the learning scheduler
     WARMUP_ITERS
     GAMMA
     STEPS
-    CHECKPOINT_PERIOD 
+    CHECKPOINT_PERIOD
     ]
 
-In the testing dataset or inference way 
+In the testing dataset or inference way
 5. Test [ maybe it is more suitible to write in the inference ]
     [ DETECTIONS_PER_IMAGE
     EVAL_PERIOD
@@ -55,10 +56,11 @@ In the testing dataset or inference way
     ]
 '''
 
+
 def init_config(mode='training'):
     # Instance Segmentation save name
     output_name = datetime.today().strftime('In_Seg-%m-%d-%H%M')
-    
+
     # Model Select
     # yml_path = 'COCO-InstanceSegmentation/mask_rcnn_R_101_DC5_3x.yaml'
     yml_path = 'COCO-InstanceSegmentation/mask_rcnn_R_50_C4_1x.yaml'
@@ -69,16 +71,16 @@ def init_config(mode='training'):
     cfg.merge_from_file(model_zoo.get_config_file(yml_path))
     cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(yml_path)  # 37
 
-    # saving path and assign dataset 
+    # saving path and assign dataset
     cfg.OUTPUT_DIR = os.path.join('outputs', output_name)  # save the record
-    cfg.DATASETS.TRAIN = ("Nuclei_train",) # notice
-    cfg.DATASETS.TEST = ()                 # none
+    cfg.DATASETS.TRAIN = ("Nuclei_train",)  # notice
+    cfg.DATASETS.TEST = ()                  # none
     cfg.DATALOADER.NUM_WORKERS = 1
     cfg.MODEL.DEVICE = 'cuda:2'
 
     # cfg.MODEL.BACKBONE.FREEZE_AT = 2
-    cfg.MODEL.ANCHOR_GENERATOR.SIZES = [[8, 16, 32, 64, 128]]  
-    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1  
+    cfg.MODEL.ANCHOR_GENERATOR.SIZES = [[8, 16, 32, 64, 128]]
+    cfg.MODEL.ROI_HEADS.NUM_CLASSES = 1
     cfg.MODEL.ROI_MASK_HEAD.POOLER_RESOLUTION = 28
 
     cfg.SOLVER.IMS_PER_BATCH = 1
@@ -97,8 +99,8 @@ def init_config(mode='training'):
 
     # For inference
 
-    #cfg.MODEL.RPN.PRE_NMS_TOPK_TEST = 12000
-    #cfg.MODEL.RPN.POST_NMS_TOPK_TEST = 2000
+    # cfg.MODEL.RPN.PRE_NMS_TOPK_TEST = 12000
+    # cfg.MODEL.RPN.POST_NMS_TOPK_TEST = 2000
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.05
     cfg.MODEL.ROI_HEADS.NMS_THRESH_TEST = 0.5
 
@@ -107,9 +109,9 @@ def init_config(mode='training'):
     # Enlarge the picture to catch the key point
 
     cfg.TEST.EVAL_PERIOD = 0
-    
+
     cfg.TEST.DETECTIONS_PER_IMAGE = 500
-    # the maximum number of the mask  
+    # the maximum number of the mask
     # According to this project
     # the
 
