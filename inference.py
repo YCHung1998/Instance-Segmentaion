@@ -3,7 +3,7 @@ import json
 import argparse
 import numpy as np
 from detectron2.config import get_cfg
-from pycocotools import mask 
+from pycocotools import mask
 from detectron2.engine.defaults import DefaultPredictor
 from detectron2.data import detection_utils
 
@@ -27,8 +27,10 @@ def Inference(cfg, args):
     # Evaluation
     for idx, test_image in enumerate(test_img_ids):
         # set the image format
-        image_path = os.path.join('dataset', 'test', test_image['file_name'])
-        image = detection_utils.read_image(image_path, format='BGR')  # cv2 format
+        image_path = os.path.join('dataset',
+                                  'test', test_image['file_name'])
+        image = detection_utils.read_image(image_path,
+                                           format='BGR')  # cv2 format
 
         # Model predict
         pred = model(image)['instances'].to('cpu').get_fields()
@@ -51,7 +53,7 @@ def Inference(cfg, args):
             }
             submission_list.append(seg)
 
-        # Show the current proccess in evaluation 
+        # Show the current proccess in evaluation
         print(f'Done : {idx+1}//{len(test_img_ids)}.')
 
     save_root = os.path.join(
@@ -83,12 +85,14 @@ if __name__ == '__main__':
     cfg.merge_from_file(f'outputs/{args.outputs}/config.yaml')
     cfg.MODEL.WEIGHTS = os.path.join('outputs',
                                      args.outputs, args.weight)
-    # cfg.TEST.DETECTIONS_PER_IMAGE = 500 
-    # 700 , 800 is same as 500 in this project 
+    # cfg.TEST.DETECTIONS_PER_IMAGE = 500
+    # 700 , 800 is same as 500 in this project
     # maybe 500 is much suitible (after observe testing image)
     cfg.MODEL.DEVICE = 'cuda'
 
     # load the testing data
     Inference(cfg, args)
 
-# Example :  python inference.py --weight model_0001199.pth --outputs In_Seg-12-14-1944
+# Example :  python inference.py
+#           --weight model_0001199.pth
+#           --outputs In_Seg-12-14-1944
