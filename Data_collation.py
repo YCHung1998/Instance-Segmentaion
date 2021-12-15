@@ -15,17 +15,18 @@ from PIL import Image
 from pycocotools import mask
 from detectron2.structures import BoxMode
 
+
 def generate_json_format(dataset_loc=os.path.join('dataset', 'train'),
                          save_loc=os.path.join('dataset', 'train.json')):
     format_list = ['file_name', 'image_id', 'height', 'width']
-    object_list = ['category_id', 'bbox_mode', 'bbox'] 
+    object_list = ['category_id', 'bbox_mode', 'bbox']
     # Notice : segmentation written bellow
 
     Namelist = os.listdir(dataset_loc)
     dataset_dict = []
 
     for idx, image_name in enumerate(Namelist):
-        record={}
+        record = {}
         filename = os.path.join(dataset_loc,
                                 image_name, 'images', image_name+'.png')
         img = Image.open(filename)
@@ -35,10 +36,10 @@ def generate_json_format(dataset_loc=os.path.join('dataset', 'train'),
         record = dict(zip(format_list, [filename, image_id, height, width]))
 
         # ==============
-        # Annotations 
+        # Annotations
         # ==============
-        MaskList = os.listdir(os.path.join(dataset_loc, image_name,'masks'))
-        annotations = [] 
+        MaskList = os.listdir(os.path.join(dataset_loc, image_name, 'masks'))
+        annotations = []
         for msk_name in MaskList:
             if not msk_name.endswith('.png'):
                 continue
@@ -58,10 +59,10 @@ def generate_json_format(dataset_loc=os.path.join('dataset', 'train'),
             # ==============
             category_id = 0
             segmentation = mask.encode(msk)
-            segmentation['counts'] = segmentation['counts'].decode() 
-            bbox_mode = BoxMode.XYWH_ABS 
+            segmentation['counts'] = segmentation['counts'].decode()
+            bbox_mode = BoxMode.XYWH_ABS
             bbox = mask.toBbox(segmentation).tolist()
-            
+
             # build the dictionary
             Object = dict(zip(object_list, [category_id, bbox_mode, bbox]))
             Object['segmentation'] = segmentation
@@ -71,14 +72,16 @@ def generate_json_format(dataset_loc=os.path.join('dataset', 'train'),
         print(f"Create id:{image_id}, name:{image_name} !")
 
     # write in json
-    JSON = json.dumps(dataset_dict, indent = 4)
+    JSON = json.dumps(dataset_dict, indent=4)
     with open(save_loc, 'w') as f:
         f.write(JSON)
     return None
-                
+
+
 def get_nuclei_dicts(json_loc=os.path.join('dataset', 'train.json')):
     '''
-    This functoion is for read the json file and plug into DatasetCatalog to register it
+    This functoion is for read the json file
+    and plug into DatasetCatalog to register it
     '''
     with open(json_loc, 'r') as f:
         dataset_dicts = json.load(f)
@@ -86,11 +89,11 @@ def get_nuclei_dicts(json_loc=os.path.join('dataset', 'train.json')):
     # set each annotation["bbox_mode"] to BoxMode.XYWH_ABS
     for data in dataset_dicts:
         for anno in data["annotations"]:
-            if anno["bbox_mode"]!=BoxMode.XYWH_ABS:
+            if anno["bbox_mode"] != BoxMode.XYWH_ABS:
                 anno["bbox_mode"] = BoxMode.XYWH_ABS
 
     return dataset_dicts
 
-if __name__=='__main__':
+if __name__ == '__main__':
     # Create the train json file
     generate_json_format()
