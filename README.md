@@ -34,7 +34,7 @@ not yet
 
 ```
 
-Please download the following links folder : ( folder : outputs )
-https://drive.google.com/drive/folders/1QBIk_4PqshaFEmXyEvYb-SQ872CGvKgO?usp=sharing
-This folder will help you to implement the inference.py to denerate the answer file in the output folder.
-python inference.py --weight model_0001599.pth --outputs In_Seg-12-14-2243
+Please download the following links folder : ( folder : outputs )  
+https://drive.google.com/file/d/1G7l7-YuF-idDn1s1Ucz43P4FYv1ucyI8/view?usp=sharing  
+This folder will help you to implement the inference.py to denerate the answer file in the output folder.  
+python inference.py --weight model_0001599.pth --outputs In_Seg-12-14-2243  
