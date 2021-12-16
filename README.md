@@ -26,10 +26,15 @@ Root/
     │    ├ ...
     └──  └── TCGA-G9-6348-01Z-00-DX1.png
 not yet    
-├──model_saved                             # use 5 fold method saving the every best valid accuracy in each fold       
-├──src                                     # some source code inside 
-├──Inference.py                            # inference your testing data, generate the answer
-├──main_1_train.py                         # train your model
+├──outputs                             #        
+├──source                              # some source code inside 
+├──Inference.py                        # inference your testing data, generate the answer
+├──train.py                            # train your model
 └──README.md
 
 ```
+
+Please download the following links folder : ( folder : outputs )
+https://drive.google.com/drive/folders/1QBIk_4PqshaFEmXyEvYb-SQ872CGvKgO?usp=sharing
+This folder will help you to implement the inference.py to denerate the answer file in the output folder.
+python inference.py --weight model_0001599.pth --outputs In_Seg-12-14-2243
