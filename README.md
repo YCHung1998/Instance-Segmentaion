@@ -16,14 +16,14 @@ Root/
 │    ├── train (total 24 training image)
 │    │    ├ TCGA-18-5592-01Z-00-DX1
 │    │    │    ├ images 
-│    │    │    │    ├   TCGA-18-5592-01Z-00-DX1.png
+│    │    │    │    └── TCGA-18-5592-01Z-00-DX1.png
 │    │    │    ├ masks
 │    │    │    │    ├   mask_0001.png
 │    │    |    │    ├ ...
 │    │    │    │    └── mask_0480.png 
 │    |    ├ TCGA-21-5784-01Z-00-DX1
 │    │    │    ├ images 
-│    │    │    │    ├   TCGA-18-5592-01Z-00-DX1.png
+│    │    │    │    └── TCGA-18-5592-01Z-00-DX1.png
 │    │    │    ├ masks
 │    │    │    │    ├   mask_0001.png
 │    │    |    │    ├ ...
@@ -52,7 +52,7 @@ This folder will help you to implement the inference.py to denerate the answer f
 
 Train
 ---
-If you want to train by yourself, you can open the ```Init_config``` and modify by yourself. After that ,run the code in terminal or environment which had been set.
+If you want to train by yourself, you can open the ```Init_config``` and modify by yourself. After that, run the code in terminal or environment which had been set.
 
 ```
 python train.py
